@@ -1,9 +1,11 @@
 import React from 'react'
 import axios from 'axios'
-import useNavigate from 'react'
+// import { useNavigate } from 'react-router-dom'
+
+
 
 const Register = () => {
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
 
     const handleRegister = async (e) => {
         e.preventDefault()
@@ -20,12 +22,12 @@ const Register = () => {
         }
 
         try {
-            const response = await axios.post('', {
+            const response = await axios.post('http://localhost:3000/user/register', {
                 name, email, address, password
             })
             console.log(response.data)
 
-            navigate('/login')
+            // navigate('/login')
 
         } catch (error) {
             console.log(error.message)
@@ -36,16 +38,16 @@ const Register = () => {
         <div>
             <form onSubmit={handleRegister}>
                 <label htmlFor="name" >Name</label> <br />
-                <input type='text' name="name" /> <br />
+                <input type='text' name="name" placeholder="Enter your Full Name"/> <br />
 
                 <label htmlFor="email"> E-Mail</label> <br />
-                <input type="email" name="email" /> <br />
+                <input type="email" name="email" placeholder="Enter your E-mail address" /> <br />
 
                 <label htmlFor="address"> Address</label>   <br />
-                <input type="text" name="address" /> <br />
+                <input type="text" name="address" placeholder="Enter your address"/> <br />
 
                 <label htmlFor="password" > Password </label> <br />
-                <input type="password" name="password" /> <br />
+                <input type="password" name="password" placeholder="Enter your password"/> <br />
 
                 <button type='submit'>Submit</button>
             </form>

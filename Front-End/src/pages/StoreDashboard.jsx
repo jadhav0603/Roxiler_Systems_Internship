@@ -1,6 +1,22 @@
-import React from 'react'
+import React, { useState,useEffect } from 'react'
+import axios from 'axios'
+
 
 const StoreDashboard = () => {
+  const [store,setStore] = useState([])
+
+  useEffect(async ()=>{
+    try {
+      const response = await axios.get()
+
+      console.log(response.data)
+      setStore(response.data)
+
+    } catch (error) {
+      console.log(error.message)
+    }
+  },[store])
+
   return (
     <div>
       <h1>WELCOME, </h1>

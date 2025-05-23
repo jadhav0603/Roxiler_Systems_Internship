@@ -9,7 +9,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('', {
+      const response = await axios.post('http://localhost:3000/user/login', {
         email,
         password
       })
@@ -29,11 +29,13 @@ const Login = () => {
         <input
           type="text"
           value={email}
+          placeholder="Enter your E-mail address"
           onChange={(e) => setEmail(e.target.value)}
         /> <br />
         <input
           type='password'
           value={password}
+          placeholder="Enter your E-mail address"
           onChange={(e) => setPassword(e.target.value)}
         /> <br />
         <button type='submit' > Submit </button>
