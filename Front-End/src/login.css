@@ -1,5 +1,5 @@
-/* General Reset */
-{
+/* Global Reset */
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -7,41 +7,45 @@
 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f5f7fa;
+  background-color: #eef1f5;
   color: #333;
 }
 
-.container {
+/* Container */
+.auth-container {
   max-width: 400px;
-  margin: 50px auto;
+  margin: 60px auto;
   padding: 2rem;
-  background: white;
-  border-radius: 10px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
-/* Header */
-.header {
+/* Header Tabs */
+.auth-header {
   display: flex;
-  justify-content: space-around;
-  margin-bottom: 2rem;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 1.5rem;
 }
 
-.header h1 {
+.auth-tab {
+  flex: 1;
+  padding: 10px;
+  font-weight: bold;
+  background-color: #e0e0e0;
+  border: none;
+  border-radius: 6px;
   cursor: pointer;
-  font-size: 1.2rem;
-  color: #555;
-  padding-bottom: 4px;
   transition: all 0.3s ease;
-  border-bottom: 2px solid transparent;
 }
 
-.header h1:hover {
-  color: #007BFF;
-  border-bottom: 2px solid #007BFF;
+.auth-tab.active {
+  background-color: #007BFF;
+  color: #fff;
 }
 
-/* Form Elements */
+/* Form Styling */
 form {
   display: flex;
   flex-direction: column;
@@ -49,17 +53,17 @@ form {
 
 label {
   font-size: 0.9rem;
-  margin-bottom: 5px;
-  color: #444;
+  margin-bottom: 4px;
+  color: #333;
 }
 
 input {
-  padding: 0.5rem;
-  margin-bottom: 1.2rem;
+  padding: 10px;
+  margin-bottom: 16px;
   border: 1px solid #ccc;
   border-radius: 6px;
-  font-size: 1rem;
-  transition: border 0.2s;
+  font-size: 0.95rem;
+  transition: border 0.2s ease;
 }
 
 input:focus {
@@ -67,17 +71,19 @@ input:focus {
   outline: none;
 }
 
-button {
-  padding: 0.6rem;
+/* Button */
+button[type="submit"] {
+  padding: 10px;
   font-size: 1rem;
+  font-weight: 600;
   background-color: #007BFF;
-  color: white;
+  color: #fff;
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: background 0.3s ease;
 }
 
-button:hover {
+button[type="submit"]:hover {
   background-color: #0056b3;
 }

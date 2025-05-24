@@ -1,50 +1,145 @@
-import React, { useState,useEffect } from 'react'
-import axios from 'axios'
-
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faShop, faXmark } from "@fortawesome/free-solid-svg-icons";
+import "../StoreDashboard.css";
 
 const StoreDashboard = () => {
-  const [store,setStore] = useState([])
+  const [store, setStore] = useState([]);
+  const [storeName, setStoreName] = useState("");
+  const [address, setAddress] = useState("");
 
-  useEffect(async ()=>{
-    try {
-      const response = await axios.get()
+  const [addFormVisible, setAddFormVisible] = useState(false);
+  const [editIndex, setEditIndex] = useState(false);
 
-      console.log(response.data)
-      setStore(response.data)
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await axios.get(
+          "http://localhost:3000/store/getStore"
+        );
 
-    } catch (error) {
-      console.log(error.message)
+        console.log(response.data);
+        setStore(response.data);
+      } catch (error) {
+        console.log(error.message);
+      }
     }
-  },[store])
+
+    fetchData();
+  }, []);
+
+  const handleAddStore = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/store/addStore",
+        {
+          storeName,
+          address,
+        }
+      );
+
+      console.log(response.data);
+
+      setStore((prev) => [...prev, response.data]);
+    } catch (error) {
+      console.log({ addStore_error: error.message });
+    }
+
+    setStoreName("");
+    setAddress("");
+    setAddFormVisible(false);
+  };
+
+  const handleAddStoreForm = () => {
+    setAddFormVisible(true);
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`http://localhost:3000/store/deleteStore/${id}`);
+      setStore((prev) => prev.filter((store) => store._id !== id));
+    } catch (error) {
+      console.log({ deleteStore_error: error.message });
+    }
+  };
 
   return (
-    <div>
-      <h1>WELCOME, </h1>
-      <button> ADD STORE </button>
-      <div>
-        <form>
+    <div className="dashboard-container">
+      <h1 className="dashboard-header">WELCOME, </h1>
+      <button className="add-store-btn" onClick={() => handleAddStoreForm()}>
+        {" "}
+        ADD STORE{" "}
+      </button>
+      {addFormVisible ? (
+        <div className="store-form">
+          <FontAwesomeIcon
+            className="close-icon"
+            icon={faXmark}
+            onClick={() => setAddFormVisible(false)}
+          />
+          <form onSubmit={handleAddStore}>
             <label>Store Name</label> <br />
-            <input type='name' name='name' /> <br/>
-            <label> Address</label><br/>
-            <input type='text' name="address"></input><br/>
-        </form>
-      </div>
+            <input
+              type="text"
+              name="name"
+              value={storeName}
+              required
+              onChange={(e) => setStoreName(e.target.value)}
+            />
+            <br />
+            <label> Address</label>
+            <br />
+            <input
+              type="text"
+              name="address"
+              value={address}
+              required
+              onChange={(e) => setAddress(e.target.value)}
+            />
+            <br />
+            <button type="submit">ADD</button>
+          </form>
+        </div>
+      ) : (
+        ""
+      )}
 
       <div>
-        {
-            store.map((ele,i)=>(
-                <div>
-                <h4>{ele.name}</h4>
-                <p>{ele.address}</p>
-                <p>{ele.rating}</p>
-                <button>Edit</button>
-                <button>Delete</button>
-                </div>
-            ))
-        }
+        {store.map((ele, i) => (
+          <div className="store-card" key={ele._id}>
+            <FontAwesomeIcon icon={faShop} />
+            <h4>{ele.name}</h4>
+            <p>{ele.address}</p>
+            <p>{ele.rating}</p>
+
+            <button onClick={() => setEditIndex(i)}>Edit</button>
+            <button onClick={() => handleDelete(ele._id)}>Delete</button>
+
+            {editIndex === i && (
+              <div className="edit-form">
+                <FontAwesomeIcon
+                  className="close-icon"
+                  icon={faXmark}
+                  onClick={() => setEditIndex(null)}
+                />
+                <form>
+                  <label>Store Name</label>
+                  <input type="text" defaultValue={ele.name} required />
+                  <br />
+                  <label>Address</label>
+                  <input type="text" defaultValue={ele.address} required />
+                  <br />
+                  <button type="submit">EDIT</button>
+                </form>
+              </div>
+            )}
+          </div>
+        ))}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default StoreDashboard
+export default StoreDashboard;
