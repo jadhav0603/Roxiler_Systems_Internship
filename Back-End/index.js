@@ -8,13 +8,14 @@ const PORT = process.env.PORT
 
 
 const userAuth = require('./Routes/usersAuth.js')
-
+const storeRoute = require('./Routes/storeRoutes')
 
 app.use(express.json())
 app.use(cors())
 
 
 app.use('/user', userAuth)
+app.use('/store', storeRoute)
 
 
 app.listen(PORT,()=>{
