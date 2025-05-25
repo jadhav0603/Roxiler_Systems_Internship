@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Login from '../components/Login';
 import Register from '../components/Register';
-import '../login.css';
+import '../css files/login.css';
 
 const LoginModel = () => {
   const [isLogin, setIsLogin] = useState(true);

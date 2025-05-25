@@ -1,32 +1,37 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShop, faXmark } from "@fortawesome/free-solid-svg-icons";
-import "../StoreDashboard.css";
+import "../css files/StoreDashboard.css";
+import PasswordUpdate from '../components/PasswordUpdate'
+import { ContextAPI } from "../components/ContextAPI";
+import { storeData } from "../functions/storeData";
+
+
 
 const StoreDashboard = () => {
-  const [store, setStore] = useState([]);
   const [storeName, setStoreName] = useState("");
   const [address, setAddress] = useState("");
-
+  
   const [addFormVisible, setAddFormVisible] = useState(false);
   const [editIndex, setEditIndex] = useState(false);
+  
+  
+  const {store, setStore,userName} = useContext(ContextAPI);
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axios.get(
-          "http://localhost:3000/store/getStore"
-        );
-
-        console.log(response.data);
-        setStore(response.data);
+        const data = await storeData()
+        setStore(data);
+        
       } catch (error) {
         console.log(error.message);
       }
     }
 
-    fetchData();
+    fetchData()
+    
   }, []);
 
   const handleAddStore = async (e) => {
@@ -67,10 +72,11 @@ const StoreDashboard = () => {
 
   return (
     <div className="dashboard-container">
-      <h1 className="dashboard-header">WELCOME, </h1>
+      <h1 className="dashboard-header">WELCOME, {userName}</h1>
+      <PasswordUpdate />
+
       <button className="add-store-btn" onClick={() => handleAddStoreForm()}>
-        {" "}
-        ADD STORE{" "}
+        ADD STORE
       </button>
       {addFormVisible ? (
         <div className="store-form">

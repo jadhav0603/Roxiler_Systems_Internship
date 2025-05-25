@@ -1,11 +1,11 @@
 import React from 'react'
 import axios from 'axios'
-// import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 
 
 const Register = () => {
-    // const navigate = useNavigate()
+    const navigate = useNavigate()
 
     const handleRegister = async (e) => {
         e.preventDefault()
@@ -27,7 +27,7 @@ const Register = () => {
             })
             console.log(response.data)
 
-            // navigate('/login')
+            navigate('/loginModel')
 
         } catch (error) {
             console.log(error.message)
