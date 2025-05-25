@@ -1,9 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const Store = require('../Schema&Models/storeSchema');
+const authMiddleware = require('../Middlewares/authMiddleware');
+const RBAC_Middleware = require('../Middlewares/RBAC_Middleware');
 
 
-router.get('/getStore', async (req, res) => {
+router.get('/getStore' ,authMiddleware, async (req, res) => {
     try {
         const stores = await Store.find();
         res.json(stores);
@@ -15,7 +17,7 @@ router.get('/getStore', async (req, res) => {
 
 
 
-router.post('/addStore', async (req, res) => {
+router.post('/addStore',authMiddleware, RBAC_Middleware(["admin","store manage"]) , async (req, res) => {
     const { storeName, address } = req.body;
 
     try {
@@ -39,7 +41,7 @@ router.post('/addStore', async (req, res) => {
 
 
 
-router.delete('/deleteStore/:id', async (req, res) => {
+router.delete('/deleteStore/:id', authMiddleware, RBAC_Middleware(["admin","store manage"]), async (req, res) => {
   try {
     const store = await Store.findByIdAndDelete(req.params.id);
 

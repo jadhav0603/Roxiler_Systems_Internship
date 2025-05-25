@@ -3,6 +3,7 @@ const router = express.Router();
 const users = require("../Schema&Models/userSchema");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const authMiddleware = require("../Middlewares/authMiddleware");
 
 router.post("/login", async (req, res) => {
     const { email, password } = req.body;
@@ -29,7 +30,7 @@ router.post("/login", async (req, res) => {
             { expiresIn: "1h" }
         );
 
-        res.status(200).json({ message: "Login Successfully", token });
+        res.status(200).json({ message: "Login Successfully", token ,role:userExisted.role, name:userExisted.name, id:userExisted._id});
     } catch (error) {
         res.status(500).json({ login_error: error.message });
     }
@@ -59,6 +60,28 @@ router.post('/register',async(req,res)=>{
     }
 
 })
+
+
+router.patch('/changePassword',authMiddleware, async (req, res) => {
+  const { id, oldPass, newPass } = req.body;
+
+  try {
+    const user = await users.findOne({ _id: id });
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    const matchPass = await bcrypt.compare(oldPass, user.password);
+    if (!matchPass) return res.status(403).json({ message: "Invalid password" });
+
+    const newHashPass = await bcrypt.hash(newPass, 10);
+    user.password = newHashPass;
+    await user.save();
+
+    res.status(200).json({ success: true, message: "Password changed successfully" });
+  } catch (error) {
+    res.status(500).json({ userDetailsErrors: error.message });
+  }
+});
+
 
 
 
