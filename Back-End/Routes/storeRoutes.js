@@ -7,8 +7,8 @@ const RBAC_Middleware = require('../Middlewares/RBAC_Middleware');
 
 router.get('/getStore', authMiddleware , async (req, res) => {
     try {
-        const stores = await Store.find();
-        res.json(stores);
+        const stores = await Store.find().populate("ratings.userId", "name email role");
+        res.status(200).json(stores);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -80,6 +80,39 @@ router.delete('/deleteStore/:id', authMiddleware, RBAC_Middleware(["admin","stor
     res.status(500).json({ message: "Server error" });
   }
 });
+
+
+
+router.post('/rateStore', authMiddleware, async (req, res) => {
+  const { storeId, rating } = req.body;
+  const userId = req.user.userId;
+
+  try {
+    const store = await Store.findById(storeId);
+    if (!store) return res.status(404).json({ message: 'Store not found' });
+
+    const existingRating = store.ratings.find(r => r.userId.toString() === userId);
+    if (existingRating) {
+      existingRating.value = rating;
+    } else {
+      store.ratings.push({ userId, value: rating });
+    }
+
+    const totalRating = store.ratings.reduce((sum, r) => sum + r.value, 0) / store.ratings.length;
+    store.rating = parseFloat(totalRating.toFixed(1));
+
+    await store.save();
+    res.status(200).json(store);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+
+
+
+
+
 
 
 module.exports = router;

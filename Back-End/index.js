@@ -9,6 +9,8 @@ const PORT = process.env.PORT
 
 const userAuth = require('./Routes/usersAuth.js')
 const storeRoute = require('./Routes/storeRoutes')
+const admin = require('./Routes/admin')
+
 
 app.use(express.json())
 app.use(cors())
@@ -16,7 +18,7 @@ app.use(cors())
 
 app.use('/user', userAuth)
 app.use('/store', storeRoute)
-
+app.use('/admin', admin)
 
 app.listen(PORT,()=>{
     try {

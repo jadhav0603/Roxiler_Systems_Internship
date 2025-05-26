@@ -13,7 +13,16 @@ const storeSchema = new mongoose.Schema({
   rating: {
     type: Number,
     default: 0
-  }
+  },
+  ratings: [
+    {
+      userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'users'  
+      },
+      value: Number
+    }
+  ]
 }, { timestamps: true });
 
 module.exports = mongoose.model('Store', storeSchema);

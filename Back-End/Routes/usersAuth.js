@@ -4,6 +4,8 @@ const users = require("../Schema&Models/userSchema");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const authMiddleware = require("../Middlewares/authMiddleware");
+const RBAC_Middleware = require("../Middlewares/RBAC_Middleware")
+
 
 router.post("/login", async (req, res) => {
     const { email, password } = req.body;
@@ -81,6 +83,18 @@ router.patch('/changePassword',authMiddleware, async (req, res) => {
     res.status(500).json({ userDetailsErrors: error.message });
   }
 });
+
+
+
+router.get("/allUsers", authMiddleware, RBAC_Middleware(["admin", "store manager"]), async (req, res) => {
+  try {
+    const users = await User.find().select("-password");
+    res.status(200).json(users);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 
 
 
