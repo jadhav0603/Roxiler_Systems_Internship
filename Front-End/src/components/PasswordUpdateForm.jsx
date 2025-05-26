@@ -22,6 +22,10 @@ const PasswordUpdateForm = () => {
       return;
     }
 
+    if (!/^(?=.*[A-Z])(?=.*\W).{8,16}$/.test(newPass)) {
+            return alert("Password must be 8-16 chars with 1 capital & 1 special char");
+        }
+
     const token = localStorage.getItem("token");
     console.log("token");
 

@@ -1,0 +1,57 @@
+.user-dashboard {
+  padding: 2rem;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f8f9fa;
+  color: #333;
+}
+
+.user-dashboard h1 {
+  color: #2c3e50;
+  margin-bottom: 2rem;
+}
+
+.user-dashboard section {
+  background-color: #fff;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.08);
+}
+
+.user-dashboard section h2 {
+  color: #2980b9;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 0.5rem;
+}
+
+.user-dashboard ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.user-dashboard ul li {
+  padding: 0.5rem 0;
+  border-bottom: 1px dashed #ccc;
+}
+
+.store-card {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background-color: #f4f6f8;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+}
+
+.store-card h3 {
+  margin-top: 0;
+  color: #34495e;
+}
+
+.store-card input[type="number"] {
+  width: 60px;
+  padding: 5px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}

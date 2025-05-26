@@ -12,6 +12,7 @@ const Login = () => {
   
   const navigate = useNavigate()
   
+  // console.log(localStorage.getItem('token'))
 
   const handleLogin = async (e) => {
     e.preventDefault();
