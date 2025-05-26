@@ -5,7 +5,7 @@ const authMiddleware = require('../Middlewares/authMiddleware');
 const RBAC_Middleware = require('../Middlewares/RBAC_Middleware');
 
 
-router.get('/getStore' ,authMiddleware, async (req, res) => {
+router.get('/getStore', authMiddleware , async (req, res) => {
     try {
         const stores = await Store.find();
         res.json(stores);
@@ -17,7 +17,7 @@ router.get('/getStore' ,authMiddleware, async (req, res) => {
 
 
 
-router.post('/addStore',authMiddleware, RBAC_Middleware(["admin","store manage"]) , async (req, res) => {
+router.post('/addStore' ,authMiddleware, RBAC_Middleware(["admin","store manager"]),async (req, res) => {
     const { storeName, address } = req.body;
 
     try {
@@ -40,8 +40,33 @@ router.post('/addStore',authMiddleware, RBAC_Middleware(["admin","store manage"]
 
 
 
+router.patch('/updateStore/:id',authMiddleware, RBAC_Middleware(["admin","store manager"]), async (req, res) => {
+  const { id } = req.params;
+  const { name, address } = req.body;
 
-router.delete('/deleteStore/:id', authMiddleware, RBAC_Middleware(["admin","store manage"]), async (req, res) => {
+  try {
+    const updatedStore = await Store.findByIdAndUpdate(
+      id,
+      { name, address },
+      { new: true } 
+    );
+
+    if (!updatedStore) {
+      return res.status(404).json({ message: "Store not found" });
+    }
+
+    res.status(200).json(updatedStore);
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
+
+
+
+
+
+
+router.delete('/deleteStore/:id', authMiddleware, RBAC_Middleware(["admin","store manager"]), async (req, res) => {
   try {
     const store = await Store.findByIdAndDelete(req.params.id);
 
