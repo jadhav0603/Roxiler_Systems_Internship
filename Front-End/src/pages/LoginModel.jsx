@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import Login from '../components/Login';
 import Register from '../components/Register';
 import '../css files/login.css';
+import { ContextAPI } from '../components/ContextAPI';
 
 const LoginModel = () => {
-  const [isLogin, setIsLogin] = useState(true);
+  const {isLogin, setIsLogin} = useContext(ContextAPI)
 
   return (
     <div className="auth-container">

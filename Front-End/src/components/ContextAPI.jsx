@@ -8,9 +8,10 @@ export const ContextAPIprovider = ({children})=>{
     const [userName, setUserName] = useState()
     const [store, setStore] = useState([])
     const [id,setId] = useState()
+    const [isLogin, setIsLogin] = useState(true);
 
     return(
-        <ContextAPI.Provider value={{userName, setUserName, store, setStore,id,setId} } >
+        <ContextAPI.Provider value={{userName, setUserName, store, setStore,id,setId , isLogin, setIsLogin} } >
             {children}
         </ContextAPI.Provider>
     )

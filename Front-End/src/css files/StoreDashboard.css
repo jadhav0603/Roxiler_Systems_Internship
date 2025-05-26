@@ -1,78 +1,71 @@
-/* StoreDashboard.css */
-
+/* Dashboard container */
 .dashboard-container {
-  max-width: 800px;
-  margin: 40px auto;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 12px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  font-family: "Segoe UI", sans-serif;
+  background-color: #f8f9fa;
 }
 
+/* Header styling */
 .dashboard-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.dashboard-header h1 {
-  font-size: 1.8rem;
+  text-align: center;
+  font-size: 32px;
   color: #333;
+  margin-bottom: 30px;
 }
 
+/* Centered password update form */
+.dashboard-container > div:first-of-type {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+/* Add store button */
 .add-store-btn {
-  background-color: #007bff;
+  display: block;
+  margin: 0 auto 30px;
+  padding: 10px 20px;
+  background-color: #0066cc;
   color: white;
-  padding: 10px 18px;
   border: none;
   border-radius: 6px;
+  font-size: 16px;
   cursor: pointer;
-  transition: 0.3s;
+  transition: background-color 0.2s ease;
 }
 
 .add-store-btn:hover {
-  background-color: #0056b3;
+  background-color: #0052a3;
 }
 
+/* Store form */
 .store-form {
-  background-color: #f9f9f9;
-  margin: 20px 0;
-  padding: 20px;
-  border-radius: 10px;
   position: relative;
-}
-
-.close-icon {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  font-size: 1.2rem;
-  color: #444;
-  cursor: pointer;
-}
-
-.store-form label {
-  font-weight: 500;
-  margin-bottom: 5px;
-  display: block;
-  color: #555;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  margin: 0 auto 30px;
+  width: 100%;
+  max-width: 400px;
 }
 
 .store-form input {
   width: 100%;
-  padding: 10px;
+  padding: 10px 12px;
   margin-bottom: 15px;
   border: 1px solid #ccc;
-  border-radius: 6px;
+  border-radius: 5px;
 }
 
 .store-form button {
   background-color: #28a745;
   color: white;
-  padding: 10px 20px;
+  padding: 10px 16px;
   border: none;
-  border-radius: 6px;
+  border-radius: 5px;
   cursor: pointer;
 }
 
@@ -80,90 +73,111 @@
   background-color: #218838;
 }
 
+.close-icon {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  font-size: 20px;
+  color: #999;
+  cursor: pointer;
+}
+
+.close-icon:hover {
+  color: #333;
+}
+
+/* Store cards */
 .store-card {
-  display: flex;
-  align-items: flex-start;
-  gap: 15px;
-  padding: 15px;
-  margin-bottom: 15px;
-  background: #f4f4f4;
+  background-color: #ffffff;
+  padding: 20px;
+  margin: 15px auto;
+  max-width: 600px;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.07);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
 }
 
 .store-card h4 {
   margin: 0;
-  font-size: 1.2rem;
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
 }
 
 .store-card p {
-  margin: 5px 0;
-  font-size: 0.95rem;
+  margin: 2px 0;
+  color: #555;
+  font-size: 14px;
 }
 
 .store-card button {
-  margin-right: 10px;
-  background-color: #ffc107;
-  color: #333;
+  margin-top: 8px;
+  margin-right: 8px;
   padding: 6px 12px;
+  font-size: 14px;
   border: none;
-  border-radius: 4px;
+  border-radius: 5px;
   cursor: pointer;
 }
 
-.store-card button:last-child {
+.store-card button:first-of-type {
+  background-color: #ffc107;
+  color: #fff;
+}
+
+.store-card button:last-of-type {
   background-color: #dc3545;
-  color: white;
+  color: #fff;
 }
 
 .store-card button:hover {
   opacity: 0.9;
 }
 
+/* Edit form inside store card */
 .edit-form {
+  width: 100%;
   margin-top: 15px;
+  background-color: #f1f1f1;
   padding: 15px;
-  background-color: #f4f4f4;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  position: relative; /* 🔥 Required for absolute-positioned close-icon to work */
+  border-radius: 6px;
 }
 
-
 .edit-form input {
-  padding: 8px;
-  margin-bottom: 12px;
   width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border-radius: 5px;
   border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 0.95rem;
 }
 
 .edit-form button {
-  background-color: #28a745;
+  background-color: #17a2b8;
   color: white;
-  padding: 8px 16px;
+  padding: 8px 14px;
   border: none;
-  border-radius: 6px;
+  border-radius: 5px;
   cursor: pointer;
 }
 
 .edit-form button:hover {
-  background-color: #218838;
+  background-color: #138496;
 }
 
-.close-icon {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 1.2rem;
-  color: black;
-  cursor: pointer;
-  z-index: 10;
+/* Responsive layout */
+@media screen and (max-width: 600px) {
+  .store-card {
+    padding: 15px;
+  }
+
+  .store-form, .edit-form {
+    padding: 15px;
+  }
+
+  .dashboard-header {
+    font-size: 26px;
+  }
 }
-
-.close-icon:hover {
-  color: #e74c3c;
-}
-
-

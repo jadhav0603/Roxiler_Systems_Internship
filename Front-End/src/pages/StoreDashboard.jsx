@@ -3,7 +3,7 @@ import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShop, faXmark } from "@fortawesome/free-solid-svg-icons";
 import "../css files/StoreDashboard.css";
-import PasswordUpdate from '../components/PasswordUpdate'
+import PasswordUpdate from "../components/PasswordUpdate";
 import { ContextAPI } from "../components/ContextAPI";
 import { storeData } from "../functions/storeData";
 
@@ -12,27 +12,30 @@ import { storeData } from "../functions/storeData";
 const StoreDashboard = () => {
   const [storeName, setStoreName] = useState("");
   const [address, setAddress] = useState("");
-  
+
   const [addFormVisible, setAddFormVisible] = useState(false);
-  const [editIndex, setEditIndex] = useState(false);
-  
-  
-  const {store, setStore,userName} = useContext(ContextAPI);
+  const [editIndex, setEditIndex] = useState(null);
+  const [editStoreData, setEditStoreData] = useState({ name: "", address: "" });
+
+  const { store, setStore, userName } = useContext(ContextAPI);
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const data = await storeData()
+        const data = await storeData();
         setStore(data);
-        
       } catch (error) {
         console.log(error.message);
       }
     }
 
-    fetchData()
-    
+    fetchData();
   }, []);
+  
+  
+  
+  const token = localStorage.getItem('token')
+
 
   const handleAddStore = async (e) => {
     e.preventDefault();
@@ -42,6 +45,10 @@ const StoreDashboard = () => {
         {
           storeName,
           address,
+        },{
+           headers:{
+                    Authorization: `Bearer ${token}`
+                }
         }
       );
 
@@ -49,7 +56,7 @@ const StoreDashboard = () => {
 
       setStore((prev) => [...prev, response.data]);
     } catch (error) {
-      console.log({ addStore_error: error.message });
+      console.log({ addStore_error: error.response?.data || error.message });
     }
 
     setStoreName("");
@@ -57,13 +64,56 @@ const StoreDashboard = () => {
     setAddFormVisible(false);
   };
 
+
+
+
   const handleAddStoreForm = () => {
     setAddFormVisible(true);
   };
 
+
+
+  const handleEditForms = async (e) => {
+  e.preventDefault();
+
+  try {
+    const response = await axios.patch(
+      `http://localhost:3000/store/updateStore/${store[editIndex]._id}`,
+      {
+        name: editStoreData.name,
+        address: editStoreData.address,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    const updatedStore = response.data;
+
+    setStore((prevStores) =>
+      prevStores.map((storeItem, index) =>
+        index === editIndex ? updatedStore : storeItem
+      )
+    );
+
+    setEditIndex(null); 
+  } catch (error) {
+    console.log({ editStore_error: error.response?.data || error.message });
+  }
+};
+
+
+
+
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:3000/store/deleteStore/${id}`);
+      await axios.delete(`http://localhost:3000/store/deleteStore/${id}`,{
+         headers:{
+                    Authorization: `Bearer ${token}`
+                }
+      });
       setStore((prev) => prev.filter((store) => store._id !== id));
     } catch (error) {
       console.log({ deleteStore_error: error.message });
@@ -120,24 +170,53 @@ const StoreDashboard = () => {
             <p>{ele.address}</p>
             <p>{ele.rating}</p>
 
-            <button onClick={() => setEditIndex(i)}>Edit</button>
+            <button
+              onClick={() => {
+                if (editIndex === i) {
+                  setEditIndex(null);
+                } else {
+                  setEditIndex(i);
+                  setEditStoreData({ name: ele.name, address: ele.address });
+                }
+              }}
+            >
+              Edit
+            </button>
+
             <button onClick={() => handleDelete(ele._id)}>Delete</button>
 
             {editIndex === i && (
               <div className="edit-form">
-                <FontAwesomeIcon
-                  className="close-icon"
-                  icon={faXmark}
-                  onClick={() => setEditIndex(null)}
-                />
-                <form>
+                <form
+                  onSubmit={handleEditForms}
+                >
                   <label>Store Name</label>
-                  <input type="text" defaultValue={ele.name} required />
+                  <input
+                    type="text"
+                    value={editStoreData.name}
+                    onChange={(e) =>
+                      setEditStoreData({
+                        ...editStoreData,
+                        name: e.target.value,
+                      })
+                    }
+                    required
+                  />
                   <br />
                   <label>Address</label>
-                  <input type="text" defaultValue={ele.address} required />
+                  <input
+                    type="text"
+                    value={editStoreData.address}
+                    onChange={(e) =>
+                      setEditStoreData({
+                        ...editStoreData,
+                        address: e.target.value,
+                      })
+                    }
+                    required
+                  />
                   <br />
-                  <button type="submit">EDIT</button>
+                  <button type="submit">UPDATE</button>
                 </form>
               </div>
             )}

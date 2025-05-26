@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import { ContextAPI } from './ContextAPI'
 
 
 
 const Register = () => {
+    const{setIsLogin} = useContext(ContextAPI)
+
     const navigate = useNavigate()
 
     const handleRegister = async (e) => {
@@ -26,8 +29,8 @@ const Register = () => {
                 name, email, address, password
             })
             console.log(response.data)
-
-            navigate('/loginModel')
+            setIsLogin(true)
+            // navigate('/loginModel')
 
         } catch (error) {
             console.log(error.message)

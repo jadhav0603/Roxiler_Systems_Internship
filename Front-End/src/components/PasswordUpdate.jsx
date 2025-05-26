@@ -2,20 +2,23 @@ import React from 'react'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from 'react-router-dom';
+import '../css files/PasswordUpdate.css'; // Import your CSS file
 
 const PasswordUpdate = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const handleUpdatePassword = async()=>{
-        navigate('/passwordUpdateForm')
-    }
+  const handleUpdatePassword = () => {
+    navigate('/passwordUpdateForm');
+  }
 
   return (
-    <div>
-      <FontAwesomeIcon icon={faUser} />
-      <button type="button" onClick={()=>handleUpdatePassword()}>Update Password</button>
-      </div>
-  )
+    <div className="password-update-container">
+      <FontAwesomeIcon icon={faUser} className="password-update-icon" />
+      <button type="button" onClick={handleUpdatePassword} className="update-password-btn">
+        Update Password
+      </button>
+    </div>
+  );
 }
 
-export default PasswordUpdate
+export default PasswordUpdate;
